@@ -1,0 +1,17 @@
+name: SwissArmyKnife
+main: org.morganm.sak.SwissArmyKnife
+version: 0.1
+author: morganm
+database: false
+commands:
+  sak:
+    description: SwissArmyKnife admin command
+    permission: sak.admin
+permissions:
+    sak.*:
+        description: Gives access to all plugin permissions
+        children:
+            sak.admin: true
+    sak.admin:
+        description: Allows access to admin functions
+        default: op
