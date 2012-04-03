@@ -1,0 +1,3 @@
+listener-info:
+    class: org.morganm.sak.modules.ListenerInfo
+    default: true
