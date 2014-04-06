@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.andune.sak</groupId>
     <artifactId>SwissArmyKnife</artifactId>
-    <version>0.2</version>
+    <version>0.2.1</version>
     <name>SwissArmyKnife</name>
     <description>Bukkit admin/developer's Swiss Army Knife of tools</description>
     <url>http://dev.bukkit.org/bukkit-plugins/SwissArmyKnife/</url>

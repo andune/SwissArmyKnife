@@ -55,7 +55,7 @@ public class ListenerInfo {
             return true;
         }
         else if (label.equalsIgnoreCase("pl")) {
-            event(args, sender);
+            plugin(args, sender);
             return true;
         }
         else {
@@ -71,8 +71,12 @@ public class ListenerInfo {
             RegisteredListener[] listeners = handlers.getRegisteredListeners();
             if (listeners.length == 0) continue;
 
-            System.out.println(clazz);
+            String title = clazz.toString() + ":";
             for (int i = 0; i < listeners.length; i++) {
+                if (title != null) {
+                    sender.sendMessage(title);
+                    title = null;
+                }
                 sender.sendMessage("  Listener " + i + ": Plugin \"" + listeners[i].getPlugin()
                         + "\" [priority " + listeners[i].getPriority() + "]");
             }
@@ -85,17 +89,21 @@ public class ListenerInfo {
             return;
         }
 
-        final String arg0 = args[0];
+        final String arg0 = args[0].toLowerCase();
         for (Class<Event> clazz : sakPlugin.getEventClasses()) {
-            if (!clazz.getName().contains(arg0))
+            if (!clazz.getName().toLowerCase().contains(arg0))
                 continue;
 
             HandlerList handlers = BukkitEventUtils.instance().getEventListeners(clazz);
             RegisteredListener[] listeners = handlers.getRegisteredListeners();
             if (listeners.length == 0) continue;
 
-            System.out.println(clazz);
+            String title = clazz.toString() + ":";
             for (int i = 0; i < listeners.length; i++) {
+                if (title != null) {
+                    sender.sendMessage(title);
+                    title = null;
+                }
                 sender.sendMessage("  Listener " + i + ": Plugin \"" + listeners[i].getPlugin()
                         + "\" [priority " + listeners[i].getPriority() + "]");
             }
@@ -108,7 +116,7 @@ public class ListenerInfo {
             return;
         }
 
-        final String arg0 = args[0];
+        final String arg0 = args[0].toLowerCase();
         for (Class<Event> clazz : sakPlugin.getEventClasses()) {
             HandlerList handlers = BukkitEventUtils.instance().getEventListeners(clazz);
             RegisteredListener[] listeners = handlers.getRegisteredListeners();
@@ -116,7 +124,7 @@ public class ListenerInfo {
 
             String title = clazz.toString() + ":";
             for (int i = 0; i < listeners.length; i++) {
-                if (!listeners[i].getPlugin().getName().contains(arg0))
+                if (!listeners[i].getPlugin().getName().toLowerCase().contains(arg0))
                     continue;
                 if (title != null) {
                     sender.sendMessage(title);
