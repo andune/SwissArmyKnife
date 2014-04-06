@@ -1,7 +1,8 @@
-name: SwissArmyKnife
-main: org.morganm.sak.SwissArmyKnife
-version: 0.1
-author: morganm
+name: ${project.name}
+main:  ${groupId}.${project.name}
+version: ${project.version}
+url: ${project.url}
+author: andune
 database: false
 commands:
   sak:

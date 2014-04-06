@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.morganm.sak.util;
+package com.andune.sak.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * @author morganm
+ * @author andune
  *
  */
 public class JavaUtils {

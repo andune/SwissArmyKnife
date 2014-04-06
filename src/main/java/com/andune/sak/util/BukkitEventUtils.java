@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.morganm.sak.util;
+package com.andune.sak.util;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -13,7 +13,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.IllegalPluginAccessException;
 
 /**
- * @author morganm
+ * @author andune
  *
  */
 public class BukkitEventUtils {

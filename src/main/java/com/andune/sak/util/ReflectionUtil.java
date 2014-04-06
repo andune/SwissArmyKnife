@@ -1,6 +1,6 @@
 // $Id$
 /*
- * WorldEdit
+ * WorldGuard
  * Copyright (C) 2011 sk89q <http://www.sk89q.com> and contributors
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,28 +17,26 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.morganm.sak.util;
+package com.andune.sak.util;
 
-import org.bukkit.command.CommandMap;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import java.lang.reflect.Field;
 
 /**
-* @author zml2008
-*/
-public class FallbackRegistrationListener implements Listener {
-
-    private final CommandMap commandRegistration;
-
-    public FallbackRegistrationListener(CommandMap commandRegistration) {
-        this.commandRegistration = commandRegistration;
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
-        if (commandRegistration.dispatch(event.getPlayer(), event.getMessage())) {
-            event.setCancelled(true);
-        }
+ * @author zml2008
+ */
+public class ReflectionUtil {
+    @SuppressWarnings("unchecked")
+    public static <T> T getField(Object from, String name) {
+        Class<?> checkClass = from.getClass();
+        do {
+            try {
+                Field field = checkClass.getDeclaredField(name);
+                field.setAccessible(true);
+                return (T) field.get(from);
+            } catch (NoSuchFieldException e) {
+            } catch (IllegalAccessException e) {
+            }
+        } while (checkClass.getSuperclass() != Object.class && ((checkClass = checkClass.getSuperclass()) != null));
+        return null;
     }
 }

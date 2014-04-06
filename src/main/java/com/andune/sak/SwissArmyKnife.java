@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.morganm.sak;
+package com.andune.sak;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +10,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.andune.sak.util.BukkitEventUtils;
+import com.andune.sak.util.JarUtils;
 import org.bukkit.event.Event;
-import org.morganm.sak.util.BukkitEventUtils;
-import org.morganm.sak.util.JarUtils;
 import org.yaml.snakeyaml.error.YAMLException;
 
 import com.sk89q.util.yaml.YAMLFormat;
@@ -25,7 +25,7 @@ import com.zachsthings.libcomponents.bukkit.YAMLNodeConfigurationNode;
 import com.zachsthings.libcomponents.loader.ConfigListedComponentLoader;
 
 /**
- * @author morganm
+ * @author andune
  *
  */
 public class SwissArmyKnife extends BasePlugin {

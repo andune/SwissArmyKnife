@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.morganm.sak.modules;
+package com.andune.sak.modules;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.RegisteredListener;
-import org.morganm.sak.SwissArmyKnife;
-import org.morganm.sak.util.BukkitEventUtils;
+import com.andune.sak.SwissArmyKnife;
+import com.andune.sak.util.BukkitEventUtils;
 
 import com.sk89q.minecraft.util.commands.Command;
 import com.sk89q.minecraft.util.commands.CommandContext;
@@ -18,7 +18,7 @@ import com.zachsthings.libcomponents.ComponentInformation;
 import com.zachsthings.libcomponents.bukkit.BukkitComponent;
 
 /**
- * @author morganm
+ * @author andune
  *
  */
 @ComponentInformation(friendlyName = "ListenerInfo", desc = "ListenerInfo contains commands that allow "+

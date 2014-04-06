@@ -1,72 +1,35 @@
-<!--
-  Maven build file for CommandBook
-  Copyright (c) 2011 sk89q <http://www.sk89q.com> 
-  CommandBook is available under the GNU General Public License v3
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.morganm</groupId>
+  <groupId>com.andune.sak</groupId>
   <artifactId>SwissArmyKnife</artifactId>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
   <name>SwissArmyKnife</name>
   <description>Bukkit admin/developer's Swiss Army Knife of tools</description>
 
-  <scm>
-    <connection>scm:git:git://github.com/morganm/SwissArmyKnife.git</connection>
-    <url>https://github.com/sk89q/SwissArmyKnife</url>
-    <developerConnection>scm:git:git@github.com:morganm/SwissArmyKnife.git</developerConnection>
-  </scm>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+    <build.number>${maven.build.timestamp}</build.number>
+  </properties>
 
   <repositories>
-    <repository>
-      <id>zml-repo</id>
-      <url>http://files.zachsthings.com/repo</url>
-    </repository>
-    <repository>
-      <id>sk89q-mvn2</id>
-      <url>http://mvn2.sk89q.com/repo</url>
-    </repository>
     <repository>
       <id>bukkit-repo</id>
       <url>http://repo.bukkit.org/content/groups/public/</url>
     </repository>
+    <repository>
+        <id>andune-repo</id>
+        <url>http://andune.com/nexus/content/groups/public/</url>
+    </repository>
   </repositories>
 
   <dependencies>
-    <!-- Required component -->
-    <dependency>
-      <groupId>com.sk89q</groupId>
-      <artifactId>worldedit</artifactId>
-      <version>5.1</version>
-    </dependency>
-
-    <dependency>
-        <groupId>com.zachsthings.libcomponents</groupId>
-        <artifactId>libcomponents-bukkit</artifactId>
-        <version>1.1-SNAPSHOT</version>
-    </dependency>
-
     <!-- Bukkit -->
     <dependency>
       <groupId>org.bukkit</groupId>
       <artifactId>bukkit</artifactId>
-      <version>1.1-R6</version>
+      <version>1.7.2-R0.2</version>
     </dependency>
-
-    <!-- 
-    <dependency>
-      <groupId>net.sf.opencsv</groupId>
-      <artifactId>opencsv</artifactId>
-      <version>2.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-    -->
   </dependencies>
 
   <build>
@@ -80,14 +43,6 @@
         <directory>${basedir}/src/main/resources/</directory>
         <includes>
           <include>plugin.yml</include>
-        </includes>
-      </resource>
-      <resource>
-        <targetPath>defaults/</targetPath>
-        <filtering>true</filtering>
-        <directory>${basedir}/src/main/resources/</directory>
-        <includes>
-          <include>components.yml</include>
         </includes>
       </resource>
     </resources>
@@ -120,46 +75,31 @@
               <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
               <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
             </manifest>
+            <manifestEntries>
+              <Implementation-Build>${build.number}</Implementation-Build>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
 
-      <!-- Shade -->
-      <!-- We want to bundle in some dependencies -->
+      <!-- License check; run 'mvn license:check' or 'mvn license:format' -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <artifactSet>
-                <includes>
-                  <include>net.sf.opencsv:opencsv</include>
-                  <include>com.zachsthings.libcomponents:libcomponents-bukkit</include>
-                </includes>
-              </artifactSet>
-            </configuration>
-          </execution>
-        </executions>
+          <groupId>com.mycila.maven-license-plugin</groupId>
+          <artifactId>maven-license-plugin</artifactId>
+          <version>1.9.0</version>
+          <configuration>
+              <header>src/main/license/header.txt</header>
+              <strictCheck>true</strictCheck>
+              <excludes>
+                  <exclude>**/src/main/resources/**</exclude>
+                  <exclude>**/src/main/license/**</exclude>
+                  <exclude>**/.idea/**</exclude>
+                  <exclude>**/*.md</exclude>
+                  <exclude>*.txt</exclude>
+              </excludes>
+          </configuration>
       </plugin>
 
-      <!-- Release 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.1</version>
-        <configuration>
-          <preparationGoals>assembly:assembly</preparationGoals>
-          <goals>assembly:assembly</goals>
-          <tagNameFormat>@{project.version}</tagNameFormat>
-        </configuration>
-      </plugin>
-      -->
     </plugins>
   </build>
 </project>
