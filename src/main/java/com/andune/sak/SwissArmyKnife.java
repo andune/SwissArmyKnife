@@ -1,111 +1,87 @@
 /**
- * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Copyright (c) 2014 Andune (andune.alleria@gmail.com)
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer
+ * in the documentation and/or other materials provided with the
+ * distribution.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  */
+
 package com.andune.sak;
 
-import java.io.File;
-import java.io.IOException;
+import com.andune.minecraft.commonlib.JarUtils;
+import com.andune.sak.modules.ListenerInfo;
+import com.andune.sak.util.BukkitEventUtils;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.andune.sak.util.BukkitEventUtils;
-import com.andune.sak.util.JarUtils;
-import org.bukkit.event.Event;
-import org.yaml.snakeyaml.error.YAMLException;
-
-import com.sk89q.util.yaml.YAMLFormat;
-import com.sk89q.util.yaml.YAMLProcessor;
-import com.zachsthings.libcomponents.InjectComponent;
-import com.zachsthings.libcomponents.InjectComponentAnnotationHandler;
-import com.zachsthings.libcomponents.bukkit.BasePlugin;
-import com.zachsthings.libcomponents.bukkit.DefaultsFileYAMLProcessor;
-import com.zachsthings.libcomponents.bukkit.YAMLNodeConfigurationNode;
-import com.zachsthings.libcomponents.loader.ConfigListedComponentLoader;
 
 /**
  * @author andune
- *
  */
-public class SwissArmyKnife extends BasePlugin {
-    private static final Logger log = Logger.getLogger("SwissArmyKnife");
-    private static final String logPrefix = "[SwissArmyKnife]";
-    
-    private static SwissArmyKnife instance;
-    
-	private Set<Class<Event>> eventClasses = new HashSet<Class<Event>>(30);
-	private JarUtils jarUtils;
-	private int buildNumber = -1;
-	
-	public SwissArmyKnife() {
-		super();
-		instance = this;
-	}
-	
-	public static SwissArmyKnife instance() { return instance; }
-	
-	@Override
-	public void onEnable() {
-    	jarUtils = new JarUtils(this, getFile(), log, logPrefix);
-		buildNumber = jarUtils.getBuildNumber();
-		
-		try {
-			eventClasses = BukkitEventUtils.instance().populateEventClasses();
-		}
-		catch(Exception e) { e.printStackTrace(); }
-//		dumpEventClasses();
-		
-        super.onEnable();
-		log.info(logPrefix + " version "+getDescription().getVersion()+", build "+buildNumber+" is enabled");
-	}
-	
-	@Override
-	public void onDisable() {
-		log.info(logPrefix + " version "+getDescription().getVersion()+", build "+buildNumber+" is disabled");
-	}
-	
-	public Set<Class<Event>> getEventClasses() { return eventClasses; }
-	
-	@Override
-	public YAMLProcessor populateConfiguration() {
-        final File configFile = new File(getDataFolder(), "config.yml");
-        YAMLProcessor config = new YAMLProcessor(configFile, true, YAMLFormat.EXTENDED);
+public class SwissArmyKnife extends JavaPlugin {
+    private Set<Class<Event>> eventClasses = new HashSet<Class<Event>>(30);
+    private JarUtils jarUtils;
+    private String buildNumber = "unknown";
+    private Logger log;
+    private ListenerInfo listenerModule;
+
+    @Override
+    public void onEnable() {
+        log = getLogger();
+        jarUtils = new JarUtils(this.getDataFolder(), getFile());
+        buildNumber = jarUtils.getBuild();
+
         try {
-            if (!configFile.exists()) {
-                configFile.getParentFile().mkdirs();
-                configFile.createNewFile();
-            }
-            config.load();
+            eventClasses = BukkitEventUtils.instance().populateEventClasses();
         } catch (Exception e) {
-            getLogger().log(Level.WARNING, "Error loading configuration: ", e);
-        }
-        return config;
-	}
-
-	@Override
-	public void registerComponentLoaders() {
-        // -- Component loaders
-        final File configDir = new File(getDataFolder(), "config/");
-        final YAMLProcessor jarComponentAliases = new DefaultsFileYAMLProcessor("components.yml", false);
-        try {
-            jarComponentAliases.load();
-        } catch (IOException e) {
-            getLogger().severe("Error loading component aliases!");
-            e.printStackTrace();
-        } catch (YAMLException e) {
-            getLogger().severe("Error loading component aliases!");
             e.printStackTrace();
         }
-        componentManager.addComponentLoader(new ConfigListedComponentLoader(getLogger(),
-                new YAMLNodeConfigurationNode(config),
-                new YAMLNodeConfigurationNode(jarComponentAliases), configDir));
+//		dumpEventClasses();
 
-        // -- Annotation handlers
-        componentManager.registerAnnotationHandler(InjectComponent.class, new InjectComponentAnnotationHandler(componentManager));
-	}
-	
-    public void loadConfiguration() {
-        config = populateConfiguration();
+        listenerModule = new ListenerInfo(this);
+
+        log.info("version " + getDescription().getVersion() + ", build " + buildNumber + " is enabled");
+    }
+
+    @Override
+    public void onDisable() {
+        log.info("version " + getDescription().getVersion() + ", build " + buildNumber + " is disabled");
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if( listenerModule.onCommand(sender, command, label, args) )
+            return true;
+
+        return false;
+    }
+
+    public Set<Class<Event>> getEventClasses() {
+        return eventClasses;
     }
 }

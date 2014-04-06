@@ -8,6 +8,15 @@ commands:
   sak:
     description: SwissArmyKnife admin command
     permission: sak.admin
+  eld:
+    description: Dump Event Listener data
+    permission: sak.admin
+  ev:
+    description: Show listeners for a specific event
+    permission: sak.admin
+  pl:
+    description: Show all events a plugin is subscribed to
+    permission: sak.admin
 permissions:
     sak.*:
         description: Gives access to all plugin permissions
