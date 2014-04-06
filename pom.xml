@@ -42,6 +42,7 @@
 
     <build>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+        <finalName>${project.artifactId}</finalName>
 
         <!-- Resources -->
         <resources>
