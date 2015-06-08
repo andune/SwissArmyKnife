@@ -36,7 +36,7 @@
         <dependency>
             <groupId>com.andune.minecraft.commonlib</groupId>
             <artifactId>commonlib</artifactId>
-            <version>0.6-SNAPSHOT</version>
+            <version>0.7</version>
         </dependency>
     </dependencies>
 
